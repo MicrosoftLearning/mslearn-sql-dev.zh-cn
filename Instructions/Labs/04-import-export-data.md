@@ -151,7 +151,7 @@ lab:
     SECRET = '<your-sas-token>';
     ```
 
-    将 ***<your-sas-token>*** 替换为前面生成的 **Blob SAS 令牌**。
+    将 <your-sas-token> 替换为前面生成的 Blob SAS 令牌。
 
 1. 最后，需要**数据源**才能访问 Azure Blob 存储。 运行以下 SQL 命令以创建**数据源**：
 
@@ -164,7 +164,7 @@ lab:
     );
     ```
 
-    将 ***<your-storage-account-name>*** 替换为 Azure 存储帐户的名称。
+    将 <your-storage-account-name> 替换为 Azure 存储帐户的名称。
 
 现在，所有内容都已设置完成，可以将数据从 **employees.json** 文件导入到 *Azure SQL 数据库*。
 
