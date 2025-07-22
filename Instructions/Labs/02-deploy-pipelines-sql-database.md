@@ -62,7 +62,7 @@ lab:
 1. 转到帐户下的“**存储库**”，然后选择“**新建**”。
 1. 选择你的帐户作为“**所有者**”。 输入名称 **my-sql-db-repo**。
 1. 将存储库设置为“**专用**”。
-1. 选择“创建存储库”。
+1. 选择“创建存储库”。****
 
 ### 安装 Visual Studio Code 扩展并克隆存储库
 
@@ -80,7 +80,7 @@ lab:
 1. 在 Visual Studio Code 中，选择“视图” > “命令面板”。
 1. 在命令面板中，键入 `Database projects: New` 并将其选中。
     > **备注：** 安装 mssql 扩展的 SQL 工具服务可能需要几分钟时间。
-1. 选择“Azure SQL 数据库”。
+1. 选择“Azure SQL 数据库”****。
 1. 输入名称 **MyDBProj**，然后按 **Enter** 进行确认。
 1. 选择克隆的 GitHub 存储库文件夹以保存项目。
 1. 对于 **SDK 样式项目**，请选择“**是(推荐)**”。
@@ -173,6 +173,7 @@ lab:
 1. 选择“**自己设置工作流**”链接。
 1. 在 **main.yml** 文件上复制以下代码。 该代码包括生成和部署数据库项目的步骤。
 
+    {% raw %}
     ```yaml
     name: Build and Deploy SQL Database Project
     on:
@@ -208,8 +209,9 @@ lab:
               action: 'publish'
               build-arguments: '-c Release'
               arguments: '/p:DropObjectsNotInSource=true'  # Optional: Customize as needed
-      ```
-
+    ```
+    {% endraw %}
+   
       YAML 文件中的“**生成和部署 SQL 项目**”步骤使用存储在 `AZURE_CONN_STRING` 机密中的连接字符串连接到 Azure SQL 数据库。 该操作指定 SQL 项目文件的路径，设置要发布的操作以部署项目，并包括要在“发布”模式下编译的生成参数。 此外，它还使用 `/p:DropObjectsNotInSource=true` 参数来确保在部署期间从目标数据库中删除源中不存在的任何对象。
 
 1. 提交更改。
