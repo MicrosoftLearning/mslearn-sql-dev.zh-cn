@@ -27,6 +27,7 @@ lab:
 
 此步骤需要在 Azure 中创建一个数据库：
 
+1. 登录到 [Azure 门户](https://portal.azure.com?azure-portal=true)。
 1. 在 Azure 门户中，转到“**SQL 数据库**”。
 1. 选择**创建**。
 1. 填写必填字段：
@@ -35,20 +36,21 @@ lab:
     |---|---|
     | 免费无服务器产品/服务 | 应用产品/服务 |
     | 订阅 | 订阅 |
-    | 资源组 | 选择或创建新资源组 |
+    | 资源组 | *选择或创建新资源组* |
     | 数据库名称 | **MyDB** |
-    | 服务器 | 选择或创建新服务器 |
+    | 服务器 | *选择“**新建**”链接* |
+    | 服务器名称 | *选择一个唯一名称* |
+    | 位置 | 选择位置** |
     | 身份验证方法 | SQL 身份验证 |
     | 服务器管理员登录名 | **sqladmin** |
-    | 密码 | 输入安全密码 |
-    | 确认密码 | 确认该密码 |
+    | 密码 | 输入安全密码** |
+    | 确认密码 | *确认该密码* |
 
 1. 选择“查看 + 创建”，然后选择“创建” 。
 1. 部署完成后，导航到 ***Azure SQL Server***（非 Azure SQL 数据库）的“**网络**”部分，然后：
     1. 将你的 IP 地址添加到防火墙规则中。 这样，就可以使用 SQL Server Management Studio（SSMS）或 Azure Data Studio 来管理数据库。
     1. 选中“允许 Azure 服务和资源访问此服务器”复选框****。 这将允许 Azure 函数应用访问数据库服务器。
     1. 保存所做更改。
-1. 导航到 **Azure SQL Server** 的 **Microsoft Entra ID** 部分，并确保*取消选中*“**此服务器仅支持 Microsoft Entra 身份验证**”，然后“**保存**”更改（如已选中）。 此示例使用 SQL 身份验证，因此我们需要禁用仅支持 Entra。
 
 > [!NOTE]
 > 在生产环境中，需要确定要授予访问权限的类型以及从何处授予访问权限。 虽然仅选择 Entra 身份验证时函数会略有变化，但请注意，仍需启用“*允许 Azure 服务和资源访问此服务器*”，以允许 Azure 函数应用访问服务器。
@@ -231,7 +233,7 @@ SELECT * FROM dbo.employee_data;
     $functionappname = "YourUniqueFunctionAppName"
     $resourcegroup = "YourResourceGroupName"
     $location = "YourLocation"
-    # NOTE - The following should be a new storage account name where your Azure function will resided.
+    # NOTE - The following should be a new storage account name where your Azure function will reside.
     # It should not be the same Storage Account name used to store the JSON file
     $storageaccount = "YourStorageAccountName"
 
