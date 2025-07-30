@@ -17,6 +17,7 @@ Azure 应用服务提供了高度可扩展且可自我维护的 Web 托管解决
 在开始本练习之前，需要：
 
 - 包含创建和管理资源适当权限的 Azure 订阅。
+- 在计算机上安装了 [SQL Server Management Studio (SSMS)](https://learn.microsoft.com/en-us/ssms/install/install)。****
 - [**Visual Studio Code**](https://code.visualstudio.com/download?azure-portal=true) 已安装在你的计算机上，并安装了以下扩展：
     - [Azure 应用服务](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azureappservice?azure-portal=true)。
 
@@ -28,26 +29,29 @@ Azure 应用服务提供了高度可扩展且可自我维护的 Web 托管解决
 1. 搜索并选择“**订阅**”。
 1. 导航到“**设置**”下的“**资源提供程序**”，搜索 **Microsoft.Sql** 提供程序，然后选择“**注册**”。
 1. 返回 Azure 门户的主页，选择“**创建资源**”。
-1. 搜索并选择“**Web 应用 + 数据库**”。
+1. 搜索“Web 应用”**** 并选择它。
 1. 选择“**创建**”并填写所需详细信息：
 
-    | Group | 设置 | 值 |
+    | 组 | 设置 | 值 |
     | --- | --- | --- |
     | **项目详细信息** | **订阅** | 选择 Azure 订阅。 |
     | **项目详细信息** | **资源组** | 选择或创建新资源组 |
-    | **项目详细信息** | **区域** | 选择要在其中托管 Web 应用的区域 |
-    | **Web 应用详细信息** | **Name** | 输入 Web 应用的唯一名称 |
-    | **Web 应用详细信息** | **运行时堆栈** | .NET 8 (LTS) |
+    | **实例详细信息** | **Name** | 输入 Web 应用的唯一名称 |
+    | **实例详细信息** | **运行时堆栈** | .NET 8 (LTS) |
+    | **实例详细信息** | **区域** | 选择要在其中托管 Web 应用的区域 |
+    | **定价计划** | **定价计划** | 基本 |
     | **Database** | **引擎** | SQLAzure |
     | **Database** | 服务器名称 | 输入 SQL 服务器的唯一名称 |
     | **Database** | **数据库名称** | 输入数据库的唯一名称 |
-    | **承载** | **托管计划** | 基本 |
+    
 
     > **备注：** 对于生产工作负荷，选择“**标准 - 常规用途生产应用**”。 新数据库的用户名和密码是自动生成的。 要在部署后检索这些值，请转到位于应用的“**环境变量**”页上的“**连接字符串**”。 
 
-1. 选择“查看 + 创建”，然后选择“创建” 。 部署可能需要几分钟时间才能完成。
-1. 连接到 Azure Data Studio 中的数据库并运行以下代码。
+1. 选择“查看 + 创建”，然后选择“创建”********。 部署可能需要几分钟时间才能完成。
+1. 在 SSMS 中连接到数据库，并运行以下代码：
 
+    >**提示**：可以通过在 Web 应用资源的“服务连接器”页中检查连接字符串，获取已分配给服务器的用户 ID 和密码
+ 
     ```sql
     CREATE TABLE Products (
         ProductID INT PRIMARY KEY,
@@ -85,7 +89,7 @@ Azure 应用服务提供了高度可扩展且可自我维护的 Web 托管解决
 
 ## 授予对 Azure SQL 数据库的访问权限
 
-1. 使用 Azure Data Studio 连接到 Azure SQL 数据库。 选择“**Microsoft Entra ID - 支持 MFA 的通用方法**”并提供用户名。
+1. 使用 SSMS 再次连接到 Azure SQL 数据库。 选择“Microsoft Entra MFA”**** 并提供用户名。
 1. 选择数据库，然后打开新的查询编辑器。
 1. 执行以下 SQL 命令，为托管标识创建用户并分配必要的权限。 通过提供 Web 应用名称来编辑脚本。
 
@@ -105,14 +109,14 @@ Azure 应用服务提供了高度可扩展且可自我维护的 Web 托管解决
 1. 打开终端并运行以下命令以创建新的 MVC 项目。
     
     ```dos
-        dotnet new mvc
+   dotnet new mvc
     ```
     这将在所选文件夹中创建新的 ASP.NET MVC 项目，并将其加载到 Visual Studio Code 中。
 
 1. 运行以下命令来执行应用程序。 
 
     ```dos
-    dotnet run
+   dotnet run
     ```
 1. 现在侦听的*终端输出：<port>http://localhost:*。 导航到 Web 浏览器中的 URL 来访问应用程序。 
 
@@ -196,6 +200,8 @@ Azure 应用服务提供了高度可扩展且可自我维护的 Web 托管解决
         return View(data);
     }
     ```
+
+1. 此外，请将 `using.<app name>.Database` 添加到文件顶部。
 1. 在项目的“**视图 -> 主页**”文件夹中，更新 **Index.cshtml** 文件，并添加以下代码。
 
     ```html
